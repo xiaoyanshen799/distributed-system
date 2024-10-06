@@ -7,7 +7,7 @@ option go_package = "/pet";
 message Pet{
     string name = 1;
     string gender = 2;
-    string age = 3;
+    int32 age = 3;
     string breed = 4;
     string picture = 5;
 }
