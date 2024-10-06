@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	pb "github.com/xiaoyanshen799/distributed-system"
+	pb "github.com/xiaoyanshen799/distributed-system/golang"
 	"gorm.io/gorm"
 )
 

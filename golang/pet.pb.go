@@ -239,6 +239,7 @@ type SearchPetRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Detail:
+	//
 	//	*SearchPetRequest_Name
 	//	*SearchPetRequest_Gender
 	//	*SearchPetRequest_Age

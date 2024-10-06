@@ -30,7 +30,7 @@ type PetServiceClient interface {
 	RegisterNewPet(ctx context.Context, in *RegisterNewPetRequest, opts ...grpc.CallOption) (*RegisterNewPetReply, error)
 	SearchPet(ctx context.Context, in *SearchPetRequest, opts ...grpc.CallOption) (*SearchPetReply, error)
 }
-···
+
 type petServiceClient struct {
 	cc grpc.ClientConnInterface
 }

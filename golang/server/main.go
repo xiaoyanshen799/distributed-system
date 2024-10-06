@@ -9,7 +9,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
-	pb "github.com/xiaoyanshen799/distributed-system"
+	pb "github.com/xiaoyanshen799/distributed-system/golang"
 )
 
 func main() {
