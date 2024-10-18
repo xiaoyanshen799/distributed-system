@@ -16,31 +16,3 @@ COPY go.mod /app
 COPY go.sum /app
 
 ENV GO111MODULE=on
-
-# 下载依赖
-RUN go mod tidy
-
-# 为 Linux ARM 架构构建服务器
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o server ./server/main.go
-
-# 为 Linux ARM 架构构建客户端
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o register-client ./client_register/main.go
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o search-client ./client_search/main.go
-
-# 使用更小的基础镜像来运行应用程序
-FROM alpine:latest
-
-# 设置工作目录
-WORKDIR /app
-
-# 将构建的二进制文件复制到最终镜像
-COPY --from=builder /app/server .
-COPY --from=builder /app/register-client .
-COPY --from=builder /app/search-client .
-
-# 暴露 gRPC 服务器的端口
-EXPOSE 50051
-
-# 默认启动服务器
-CMD ["./server"]
-

@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/google/uuid"
-	pb "github.com/xiaoyanshen799/distributed-system/golang"
+	pb "github.com/xiaoyanshen799/distributed-system"
 )
 
 type server struct {

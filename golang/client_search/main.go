@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	pb "github.com/xiaoyanshen799/distributed-system/golang"
+	pb "github.com/xiaoyanshen799/distributed-system"
 
 	"google.golang.org/grpc"
 )

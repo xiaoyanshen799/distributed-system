@@ -1,4 +1,4 @@
-module github.com/xiaoyanshen799/distributed-system/golang
+module github.com/xiaoyanshen799/distributed-system
 
 go 1.23
 
