@@ -89,7 +89,14 @@ If you want to compile and run the project directly on your machine without Dock
    go mod tidy
    ```
 
-3. Compile the project:
+3. Modify client's code:
+
+   ```go
+   //you should change the server-container into your real ip address in client_search/main.go and client_register/main.go in grpc.Dial
+   conn, err := grpc.Dial("server-container:50051", grpc.WithInsecure(), grpc.WithBlock())
+   ```
+
+4. Compile the project:
 
    ```bash
    # Compile the server
@@ -100,13 +107,13 @@ If you want to compile and run the project directly on your machine without Dock
    go build -o search-client ./client_search/main.go
    ```
 
-4. Run the server:
+5. Run the server:
 
    ```bash
    ./server
    ```
 
-5. Run the clients in another terminal:
+6. Run the clients in another terminal:
 
    ```bash
    ./register-client
