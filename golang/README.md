@@ -15,6 +15,14 @@ This project demonstrates a distributed system with components for client regist
 
 The project includes a Dockerfile to help build and run the server and client components inside containers.
 
+#### 0. Clone the repository: ####
+
+   ```bash
+   git clone https://github.com/xiaoyanshen799/distributed-system.git
+   cd distributed-system/golang
+   ```
+
+
 #### 1. Create a Docker network
 
 First, create a Docker network that the containers will use to communicate with each other:
@@ -72,6 +80,8 @@ Once inside the container, manually run the client applications:
 
 You can run either the `register-client` or `search-client` as needed, and both will communicate with the server running in the `server-container`.
 
+#### the picture use for register is in inputPicture/  ####
+#### since unable to open picture in container, the picture of result in search-client will store in /downloaded_images ####
 ### Compiling the Project Manually
 
 If you want to compile and run the project directly on your machine without Docker:
