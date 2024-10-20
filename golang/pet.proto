@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package pet;
+
+option go_package = "/pet";
+
+message Pet{
+    string name = 1;
+    string gender = 2;
+    int32 age = 3;
+    string breed = 4;
+    bytes picture = 5;
+}
+
+service PetService{
+    rpc RegisterNewPet(RegisterNewPetRequest) returns(RegisterNewPetReply);
+    rpc SearchPet(SearchPetRequest) returns(SearchPetReply);
+}
+
+message RegisterNewPetRequest{
+    string name = 1;
+    string gender = 2;
+    int32 age = 3;
+    string breed = 4;
+    bytes picture = 5;
+}
+
+message RegisterNewPetReply{
+    int32 code = 1;
+    string msg = 2;
+}
+
+message SearchPetRequest{
+    oneof detail {
+        string name = 1;
+        string gender = 2;
+        int32 age = 3;
+        string breed = 4;
+  }
+}
+
+message SearchPetReply{
+    repeated Pet pets = 1;
+}
