@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	pb "github.com/xiaoyanshen799/distributed-system"
+	pb "distributed-system"
 
 	"google.golang.org/grpc"
 )
@@ -19,7 +19,7 @@ import (
 func registerPet(client pb.PetServiceClient) {
 	reader := bufio.NewReader(os.Stdin)
 
-	// 获取宠物信息
+	// input information
 	fmt.Print("please input pet's name: ")
 	name, _ := reader.ReadString('\n')
 	name = strings.TrimSpace(name)
@@ -43,13 +43,13 @@ func registerPet(client pb.PetServiceClient) {
 	imagePath, _ := reader.ReadString('\n')
 	imagePath = strings.TrimSpace(imagePath)
 
-	// 将图片读取为字节数组
+	// trans image to byte
 	imageData, err := ioutil.ReadFile(imagePath)
 	if err != nil {
 		log.Fatalf("unable to open picture: %v", err)
 	}
 
-	// 创建宠物请求
+	// create request
 	pet := &pb.RegisterNewPetRequest{
 		Name:    name,
 		Gender:  gender,
@@ -61,6 +61,7 @@ func registerPet(client pb.PetServiceClient) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
+	// call server function
 	response, err := client.RegisterNewPet(ctx, pet)
 	if err != nil {
 		log.Fatalf("register pet error: %v", err)
@@ -69,15 +70,16 @@ func registerPet(client pb.PetServiceClient) {
 }
 
 func main() {
-	// 连接到 gRPC 服务器
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(), grpc.WithBlock())
+	// Establish a gRPC connection to the 'server-container' at port 50051.
+	// server-container is my server's container name
+	conn, err := grpc.Dial("server-container:50051", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("unable to connect: %v", err)
 	}
 	defer conn.Close()
 
+	// Create a new gRPC client using the provided connection.
 	client := pb.NewPetServiceClient(conn)
 
-	// 调用注册宠物的方法
 	registerPet(client)
 }

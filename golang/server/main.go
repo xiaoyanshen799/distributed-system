@@ -11,8 +11,9 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
+	pb "distributed-system"
+
 	"github.com/google/uuid"
-	pb "github.com/xiaoyanshen799/distributed-system"
 )
 
 type server struct {
@@ -99,30 +100,29 @@ func (s *server) SearchPet(ctx context.Context, req *pb.SearchPetRequest) (*pb.S
 }
 
 func main() {
-	// 连接数据库
+	// connect db
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("failed to connect database: %v", err)
 	}
 
-	// 自动迁移数据库模型
+	// the database table is created or updated to match the 'PetModel' struct.
 	if err := db.AutoMigrate(&PetModel{}); err != nil {
 		log.Fatalf("failed to migrate database: %v", err)
 	}
 
-	// 监听端口
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	// 创建 gRPC 服务器
+	// create gRPC server
 	grpcServer := grpc.NewServer()
 
-	// 注册服务
+	// register server
 	pb.RegisterPetServiceServer(grpcServer, &server{db: db})
 
-	// 注册反射服务，以便使用 grpcurl 等工具进行调试
+	// register server
 	reflection.Register(grpcServer)
 
 	log.Println("gRPC server is running on port :50051")

@@ -13,19 +13,19 @@ import (
 	"strings"
 	"time"
 
-	pb "github.com/xiaoyanshen799/distributed-system"
+	pb "distributed-system"
 
 	"google.golang.org/grpc"
 )
 
 func saveImage(pet string, imageData []byte) (string, error) {
-	// 创建图片保存目录
+	// create image direction
 	imageDir := "downloaded_images"
 	if _, err := os.Stat(imageDir); os.IsNotExist(err) {
 		os.Mkdir(imageDir, os.ModePerm)
 	}
 
-	// 保存图片
+	// save image
 	imagePath := filepath.Join(imageDir, pet+".jpg")
 	err := os.WriteFile(imagePath, imageData, 0644)
 	if err != nil {
@@ -37,7 +37,7 @@ func saveImage(pet string, imageData []byte) (string, error) {
 }
 
 func openImage(imagePath string) error {
-	// 根据操作系统运行不同的命令
+	// open picture command according to os
 	var cmd *exec.Cmd
 	switch os := runtime.GOOS; os {
 	case "darwin": // macOS
@@ -47,12 +47,12 @@ func openImage(imagePath string) error {
 	case "windows": // Windows
 		cmd = exec.Command("cmd", "/c", "start", imagePath)
 	default:
-		return fmt.Errorf("不支持的操作系统: %s", os)
+		return fmt.Errorf("unsupport os: %s", os)
 	}
 
 	err := cmd.Start()
 	if err != nil {
-		return fmt.Errorf("无法打开图片: %v", err)
+		return fmt.Errorf("open picture error: %v", err)
 	}
 
 	return nil
@@ -65,7 +65,7 @@ func searchPet(client pb.PetServiceClient) {
 	input, _ := reader.ReadString('\n')
 	input = strings.TrimSpace(input)
 
-	// 解析用户输入的关键字
+	// parse input
 	splitInput := strings.Split(input, ":")
 	if len(splitInput) != 2 {
 		log.Fatalf("invalid type, please use this format, for example: name:Labrador")
@@ -79,13 +79,13 @@ func searchPet(client pb.PetServiceClient) {
 	switch field {
 	case "name":
 		searchRequest = &pb.SearchPetRequest{
-			Detail: &pb.SearchPetRequest_Name{ // 使用包装器类型
+			Detail: &pb.SearchPetRequest_Name{
 				Name: keyword,
 			},
 		}
 	case "gender":
 		searchRequest = &pb.SearchPetRequest{
-			Detail: &pb.SearchPetRequest_Gender{ // 使用包装器类型
+			Detail: &pb.SearchPetRequest_Gender{
 				Gender: keyword,
 			},
 		}
@@ -95,13 +95,13 @@ func searchPet(client pb.PetServiceClient) {
 			log.Fatalf("无效的年龄: %v", err)
 		}
 		searchRequest = &pb.SearchPetRequest{
-			Detail: &pb.SearchPetRequest_Age{ // 使用包装器类型
+			Detail: &pb.SearchPetRequest_Age{
 				Age: int32(age),
 			},
 		}
 	case "breed":
 		searchRequest = &pb.SearchPetRequest{
-			Detail: &pb.SearchPetRequest_Breed{ // 使用包装器类型
+			Detail: &pb.SearchPetRequest_Breed{
 				Breed: keyword,
 			},
 		}
@@ -109,43 +109,43 @@ func searchPet(client pb.PetServiceClient) {
 		log.Fatalf("invalid field: %s", field)
 	}
 
-	// 调用 SearchPet 方法
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
+	// call searchPet function
 	resp, err := client.SearchPet(ctx, searchRequest)
 	if err != nil {
 		log.Fatalf("unable to search: %v", err)
 	}
 
-	// 打印搜索结果
+	// print result
 	log.Printf("find %d pets:", len(resp.Pets))
 	for _, pet := range resp.Pets {
 		log.Printf("name: %s, gender: %s, age: %d, breed: %s", pet.Name, pet.Gender, pet.Age, pet.Breed)
-		imagePath, err := saveImage(fmt.Sprintf("%s, %s, %d, %s", pet.Name, pet.Gender, pet.Age, pet.Breed), pet.Picture)
+		imagePath, err := saveImage(fmt.Sprintf("%s_%s_%d_%s", pet.Name, pet.Gender, pet.Age, pet.Breed), pet.Picture)
 		if err != nil {
-			log.Printf("无法保存图片: %v", err)
+			log.Printf("save picture error: %v", err)
 		}
 
-		// 打开图片
+		// open image
 		err = openImage(imagePath)
 		if err != nil {
-			log.Printf("无法打开图片: %v", err)
+			log.Printf("open picture error: %v", err)
 		}
-		time.Sleep(2000)
 	}
 }
 
 func main() {
-	// 连接到 gRPC 服务器
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(), grpc.WithBlock())
+	// Establish a gRPC connection to the 'server-container' at port 50051.
+	// server-container is my server's container name
+	conn, err := grpc.Dial("server-container:50051", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("unable to connect: %v", err)
 	}
 	defer conn.Close()
 
+	// Create a new gRPC client
 	client := pb.NewPetServiceClient(conn)
 
-	// 调用搜索宠物的方法
 	searchPet(client)
 }

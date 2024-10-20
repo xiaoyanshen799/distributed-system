@@ -1,4 +1,4 @@
-module github.com/xiaoyanshen799/distributed-system
+module distributed-system
 
 go 1.23
 
