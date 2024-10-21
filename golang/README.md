@@ -110,7 +110,7 @@ If you want to compile and run the project directly on your machine without Dock
 
    ```bash
    # Compile the server
-   go build -o server ./server/main.go
+   go build -o server-out ./server/main.go
 
    # Compile the client components
    go build -o register-client ./client_register/main.go
@@ -120,7 +120,7 @@ If you want to compile and run the project directly on your machine without Dock
 5. Run the server:
 
    ```bash
-   ./server
+   ./server-out
    ```
 
 6. Run the clients in another terminal:
