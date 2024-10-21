@@ -81,7 +81,9 @@ Once inside the container, manually run the client applications:
 You can run either the `register-client` or `search-client` as needed, and both will communicate with the server running in the `server-container`.
 
 #### the picture use for register is in inputPicture/  ####
-#### since unable to open picture in container, the picture of result in search-client will store in /downloaded_images ####
+#### since unable to open picture in container, the picture of result in search-client will store in /downloaded_images
+use "docker cp containid:/app/downloaded_images/xxx.jpg . " to copy picture to your own computer 
+####
 ### Compiling the Project Manually
 
 If you want to compile and run the project directly on your machine without Docker:
