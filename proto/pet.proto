@@ -9,7 +9,7 @@ message Pet{
     string gender = 2;
     int32 age = 3;
     string breed = 4;
-    string picture = 5;
+    bytes picture = 5;
 }
 
 service PetService{
@@ -22,7 +22,7 @@ message RegisterNewPetRequest{
     string gender = 2;
     int32 age = 3;
     string breed = 4;
-    string picture = 5;
+    bytes picture = 5;
 }
 
 message RegisterNewPetReply{

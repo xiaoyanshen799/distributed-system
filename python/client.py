@@ -18,7 +18,7 @@ def register_pet(stub):
         gender="Female",
         age=3,
         breed="Labrador",
-        picture="picture_bytes_here"  # This should be a string, not bytes
+        picture=bytes("picture_bytes_here", encoding="utf8")  # This should be a bytes, not string
     )
     response = stub.RegisterNewPet(request)
     print(f"Register Response: {response.msg}")

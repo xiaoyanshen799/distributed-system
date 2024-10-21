@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-import pet_pb2 as pet__pb2
+from proto import pet_pb2 as proto_dot_pet__pb2
 
 GRPC_GENERATED_VERSION = '1.66.2'
 GRPC_VERSION = grpc.__version__
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in pet_pb2_grpc.py depends on'
+        + f' but the generated code in proto/pet_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -36,13 +36,13 @@ class PetServiceStub(object):
         """
         self.RegisterNewPet = channel.unary_unary(
                 '/pet.PetService/RegisterNewPet',
-                request_serializer=pet__pb2.RegisterNewPetRequest.SerializeToString,
-                response_deserializer=pet__pb2.RegisterNewPetReply.FromString,
+                request_serializer=proto_dot_pet__pb2.RegisterNewPetRequest.SerializeToString,
+                response_deserializer=proto_dot_pet__pb2.RegisterNewPetReply.FromString,
                 _registered_method=True)
         self.SearchPet = channel.unary_unary(
                 '/pet.PetService/SearchPet',
-                request_serializer=pet__pb2.SearchPetRequest.SerializeToString,
-                response_deserializer=pet__pb2.SearchPetReply.FromString,
+                request_serializer=proto_dot_pet__pb2.SearchPetRequest.SerializeToString,
+                response_deserializer=proto_dot_pet__pb2.SearchPetReply.FromString,
                 _registered_method=True)
 
 
@@ -66,13 +66,13 @@ def add_PetServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'RegisterNewPet': grpc.unary_unary_rpc_method_handler(
                     servicer.RegisterNewPet,
-                    request_deserializer=pet__pb2.RegisterNewPetRequest.FromString,
-                    response_serializer=pet__pb2.RegisterNewPetReply.SerializeToString,
+                    request_deserializer=proto_dot_pet__pb2.RegisterNewPetRequest.FromString,
+                    response_serializer=proto_dot_pet__pb2.RegisterNewPetReply.SerializeToString,
             ),
             'SearchPet': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchPet,
-                    request_deserializer=pet__pb2.SearchPetRequest.FromString,
-                    response_serializer=pet__pb2.SearchPetReply.SerializeToString,
+                    request_deserializer=proto_dot_pet__pb2.SearchPetRequest.FromString,
+                    response_serializer=proto_dot_pet__pb2.SearchPetReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -100,8 +100,8 @@ class PetService(object):
             request,
             target,
             '/pet.PetService/RegisterNewPet',
-            pet__pb2.RegisterNewPetRequest.SerializeToString,
-            pet__pb2.RegisterNewPetReply.FromString,
+            proto_dot_pet__pb2.RegisterNewPetRequest.SerializeToString,
+            proto_dot_pet__pb2.RegisterNewPetReply.FromString,
             options,
             channel_credentials,
             insecure,
@@ -127,8 +127,8 @@ class PetService(object):
             request,
             target,
             '/pet.PetService/SearchPet',
-            pet__pb2.SearchPetRequest.SerializeToString,
-            pet__pb2.SearchPetReply.FromString,
+            proto_dot_pet__pb2.SearchPetRequest.SerializeToString,
+            proto_dot_pet__pb2.SearchPetReply.FromString,
             options,
             channel_credentials,
             insecure,
