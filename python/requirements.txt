@@ -1,0 +1,4 @@
+tk        # Standard Python library, no need to install separately.
+grpcio # Install grpcio for gRPC functionality.
+protobuf # Required for gRPC (pet_pb2 and pet_pb2_grpc are likely generated from a .proto file).
+grpcio-tools # Required for gRPC (protoc is likely used to generate pet_pb2 and pet_pb2_grpc).
