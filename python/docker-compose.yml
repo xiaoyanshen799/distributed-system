@@ -1,0 +1,10 @@
+version: '3'
+services:
+  myapp:
+    build: .
+    ports:
+      - "50051:50051"
+    volumes:
+      - .:/app       # 将当前目录挂载到容器的/app目录
+    environment:
+      - ENV_VAR=production  # 设置环境变量（可选）

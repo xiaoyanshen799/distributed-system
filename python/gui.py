@@ -112,7 +112,7 @@ class PetApp:
         # Call gRPC register method
         try:
             response = self.stub.RegisterNewPet(pet)
-            print(response)
+            messagebox.showinfo("Registration", response.msg)
             # messagebox.showinfo("Registration", response.message)
         except grpc.RpcError as e:
             messagebox.showerror("Registration Error", f"An error occurred during registration: {e.details()}")
